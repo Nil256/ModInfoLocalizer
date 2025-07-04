@@ -1,0 +1,57 @@
+Mod Info Localizer
+
+by にるにころ (Nil256)
+
+----------------------------------------
+
+このModはModの情報(説明)を翻訳する手段を提供します。
+
+----------------------------------------
+
+< 使用方法 (プレイヤー向け) >
+
+Terrariaがサポートしている言語に翻訳する場合、特に追加の設定はありません。
+
+Terrariaがサポートしていない言語に翻訳する場合、設定で言語コードを入力する必要があります。
+言語コードとは"ja-JP"(日本語の場合)のようなものです。
+
+ShiftまたはControlキーを押しながらMod情報のボタンを押すと、デフォルトの(翻訳されていない)説明が表示されます。
+
+----------------------------------------
+
+< 使用方法 (翻訳) >
+
+どちらの方法でも、このModを参照に入れる必要はありません。
+
+= 私はModの作者です =
+Modのルートディレクトリまたは"Localization"ディレクトリに"description_<言語コード>.txt"を作成することで翻訳を追加できます。
+(例: "description_en-US.txt")
+同じ名前のファイルがルートディレクトリと"Localization"ディレクトリにある場合、ルートディレクトリの方を優先します。
+Terrariaがサポートしていない言語でも追加できます。
+もし、あなたが作者で、Modの本体とは別に翻訳Modを作成する場合は以下を参照してください。
+
+
+= 私は非公式の翻訳Modを作っています =
+Mod.Callを使って翻訳できます。
+modInfoLocalizer.Call("Register", string modName, string languageCode, string localizedDescription, int priority = -1);
+
+Terrariaがサポートしていない言語でもできます。
+
+priorityは0にできません。0は公式の翻訳として予約されています。
+priorityにはなるべく負の値を割り当ててください。正の値は、なんらかの理由で公式の翻訳を上書きする時のみ使用してください。
+
+例:
+
+public override void PostSetupContent()
+{
+    if (ModLoader.TryGetMod("ModInfoLocalizer", out Mod modInfoLocalizer))
+    {
+        modInfoLocalizer.Call("Register", "SomeMod", "ja-JP", "日本語に翻訳。\nこれは例です。");
+    }
+}
+
+----------------------------------------
+
+< リリースノート >
+- v0.9
+  リリース。

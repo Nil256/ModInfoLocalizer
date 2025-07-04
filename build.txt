@@ -1,0 +1,5 @@
+displayName = Mod Info Localizer
+author = Nil256
+version = 0.9
+side = client
+hideResources = true

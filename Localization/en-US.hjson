@@ -1,0 +1,19 @@
+Mods: {
+	ModInfoLocalizer: {
+		Configs: {
+			Headers: {
+				Localization: "Localization"
+				UI: "Interface"
+			}
+			Client: {
+				Title: "Config"
+
+				Localization_LanguageCode_Label: "Language Code"
+				Localization_LanguageCode_Tooltip: "This is for languages which are not supported on Terraria.\nIf empty, uses vanilla language option.\nPut language code. (for example: \"ja-JP\" on Japanese)"
+
+				ShowLocalizedIcon_Label: "Beta: Show the localized icon"
+				ShowLocalizedIcon_Tooltip: "If on, it will show the icon to mods whose info is localized.\nThis is beta feature, note that the icon is sometimes not shown even if info is localized.\nOff by default"
+			}
+		}
+	}
+}

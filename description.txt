@@ -1,0 +1,57 @@
+Mod Info Localizer
+
+by Nil256
+
+----------------------------------------
+
+This mod provides localization method for mod info (description).
+
+----------------------------------------
+
+< Usage for player >
+
+Translating into a language which is supported on Terraria is not required change the config.
+
+Translating into a language which is not supported on Terraria needs to put a language code in the config.
+Language code is like "ja-JP" (Japanese) for example.
+
+When you press the mod info button with pressing Shift/Control key, shows default(not localized) mod info.
+
+----------------------------------------
+
+< Usage for translation >
+
+You don't need to add this mod to references in either case.
+
+= If you are the author of a mod =
+You can add localization by creating "description_<Language Code>.txt" in the root directory or "Localization" directory of your mod.
+(For example: "description_en-US.txt")
+If there are files named same between the root directory and "Localization" directory, the root one will be prioritized.
+You can localize into also a language which is not supported on Terraria.
+If you are the author but you're making localization mod separately from the mod, please read following.
+
+
+= If you are making a localization mod unofficially =
+You can localize by Mod.Call.
+modInfoLocalizer.Call("Register", string modName, string languageCode, string localizedDescription, int priority = -1);
+
+You can localize into also a language which is not supported on Terraria.
+
+priority cannot be assigned 0, that means official support,
+You should assign negative value to priority, positive value allows only when overwrite officical localization for some reason.
+
+For example:
+
+public override void PostSetupContent()
+{
+    if (ModLoader.TryGetMod("ModInfoLocalizer", out Mod modInfoLocalizer))
+    {
+        modInfoLocalizer.Call("Register", "SomeMod", "en-US", "Localized into English.\nThis is a example.");
+    }
+}
+
+----------------------------------------
+
+< Release Notes >
+- v0.9
+  Released.
