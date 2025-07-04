@@ -1,6 +1,3 @@
-using System;
-using System.Text;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace ModInfoLocalizer

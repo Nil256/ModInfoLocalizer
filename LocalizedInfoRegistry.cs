@@ -24,11 +24,15 @@ namespace ModInfoLocalizer
             for (var i = 0; i < mods.Length; i++)
             {
                 Mod mod = mods[i];
-                if (mod.Name == "ModLoader")
+                string modName = mod.Name;
+                if (modName == "ModLoader")
                 {
                     continue;
                 }
-                _registry.Add(mod.Name, new LocalizedModInfo());
+                if (!_registry.ContainsKey(modName))
+                {
+                    _registry.Add(modName, new LocalizedModInfo());
+                }
                 FindLocalizedInfoFile(logger, mod);
             }
         }

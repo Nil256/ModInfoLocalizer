@@ -26,6 +26,7 @@ You don't need to add this mod to references in either case.
 = If you are the author of a mod =
 You can add localization by creating "description_<Language Code>.txt" in the root directory or "Localization" directory of your mod.
 (For example: "description_en-US.txt")
+Localized description text file needs to be written with UTF-8.
 If there are files named same between the root directory and "Localization" directory, the root one will be prioritized.
 You can localize into also a language which is not supported on Terraria.
 If you are the author but you're making localization mod separately from the mod, please read following.
