@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using ModInfoLocalizer.Textures;
-using MonoMod.RuntimeDetour.HookGen;
+using MonoMod.RuntimeDetour;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria.GameContent.UI.Elements;
@@ -11,23 +11,27 @@ namespace ModInfoLocalizer
 {
     internal static class ModInfoLocalizerDetour
     {
-        private delegate void UIModInfo_orig_Show(object self, string modName, string displayName, int gotoMenu, object localMod, string description, string url, bool loadFromWeb, string publishedFileId);
+        private static Hook UIModInfo_Show_Hook;
+        private static Hook UIModItem_OnInitialize_Hook;
+        private delegate void UIModInfo_orig_Show(object self, string modName, string displayName, int gotoMenu, object localMod, string description, string url);
 
         private delegate void UIModItem_orig_OnInitialize(object self);
 
         internal static void AddHooks()
         {
-            HookEndpointManager.Add(ReflectionCache.UIModInfo.Show, HackModInfo);
-            HookEndpointManager.Add(ReflectionCache.UIModItem.OnInitialize, AppendLocalizedIcon);
+            UIModInfo_Show_Hook = new Hook(ReflectionCache.UIModInfo.Show, HackModInfo);
+            UIModItem_OnInitialize_Hook = new Hook(ReflectionCache.UIModItem.OnInitialize, AppendLocalizedIcon);
+            UIModInfo_Show_Hook.Apply();
+            UIModItem_OnInitialize_Hook.Apply();
         }
 
-        private static void HackModInfo(UIModInfo_orig_Show orig, object self, string modName, string displayName, int gotoMenu, object localMod, string description, string url, bool loadFromWeb, string publishedFileId)
+        private static void HackModInfo(UIModInfo_orig_Show orig, object self, string modName, string displayName, int gotoMenu, object localMod, string description, string url)
         {
-            if (!loadFromWeb && !IsPressedShiftOrControl() && LocalizedInfoRegistry.TryGetLocalizedInfo(modName, ModInfoLocalizer.Option.GetCurrentLanguageCode(), out string localizedDescription) && !string.IsNullOrEmpty(localizedDescription))
+            if (!IsPressedShiftOrControl() && LocalizedInfoRegistry.TryGetLocalizedInfo(modName, ModInfoLocalizer.Option.GetCurrentLanguageCode(), out string localizedDescription) && !string.IsNullOrEmpty(localizedDescription))
             {
                 description = localizedDescription;
             }
-            orig(self, modName, displayName, gotoMenu, localMod, description, url, loadFromWeb, publishedFileId);
+            orig(self, modName, displayName, gotoMenu, localMod, description, url);
         }
 
         private static bool IsPressedShiftOrControl()
@@ -87,8 +91,8 @@ namespace ModInfoLocalizer
 
         internal static void RemoveHooks()
         {
-            HookEndpointManager.Remove(ReflectionCache.UIModItem.OnInitialize, AppendLocalizedIcon);
-            HookEndpointManager.Remove(ReflectionCache.UIModInfo.Show, HackModInfo);
+            UIModItem_OnInitialize_Hook.Dispose();
+            UIModInfo_Show_Hook.Dispose();
         }
     }
 }
